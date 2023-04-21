@@ -1,0 +1,25 @@
+<html>
+<head>
+	<script src="jquery.min.js" type="text/javascript"></script>
+	<script src="https://blacktomato-website-analytics.herokuapp.com/socket.min.js" type="text/javascript"></script>
+	<script src="https://blacktomato-website-analytics.herokuapp.com/all.dhruv.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		function getUrlParameterValue (name){
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		}
+		var acc = getUrlParameterValue('code');
+		$("#dhruv_analytics_accountcode").val(acc);
+	</script>
+</head>
+	<body>
+		<h1>
+			Simple Page
+		</h1>
+		<input id="dhruv_analytics_accountcode" type='hidden' value="" />
+		<input id="dhruv_analytics_product" type='hidden' value="dp" />
+		<input id="dhruv_analytics_bkgno" type='hidden' value="897654" />
+	</body>
+</html>

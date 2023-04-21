@@ -1,0 +1,57 @@
+<html>
+<body>
+<h1>Real Time Page Views</h1>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="jquery.querystring.js" type="text/javascript"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  $(function(){
+    var clientCode = jQuery.query.GET('clientcode');
+    if (clientCode) {
+      clientCode = ("0000000000" + clientCode).slice(-10);
+    }
+    var socket = io.connect();
+    var webData = {};
+    socket.on('connect', function () {
+        socket.emit('load',clientCode);
+        socket.on('refresh', function (data) {
+			if(data.accountcode == clientCode)
+			{
+			  var msgs = data.webData;
+			  msgs.forEach(function(msg){
+				if(!webData[msg.seqno])
+				{
+				  webData[msg.seqno] = msg;
+
+				  var date = new Date(msg.date);
+				  
+				  $('#pageViews tbody').prepend('<tr><td>' + msg.seqno + '</td><td>' + msg.accountcode + '</td><td>' + msg.url + '</td><td>' + date + '</td><td>' + msg.device + '</td><td>' + msg.os + 
+					'</td><td>' +
+					msg.browser + '</td><td>' +
+					msg.ip + '</td></tr>');
+				}
+			  });
+			}
+        });
+    });
+  });
+</script>
+
+<table id="pageViews" border="1">
+		<thead>
+		<tr>
+      <td>SeqNo</td>
+      <td>Accountcode</td>
+		  <td>Url</td>
+          <td>Date</td>
+          <td>Device</td>
+          <td>OS</td>
+          <td>Browser</td>
+          <td>IP</td>
+        </tr>
+		</thead>
+		<tbody></tbody>
+
+</table>
+</body>
+</html>
